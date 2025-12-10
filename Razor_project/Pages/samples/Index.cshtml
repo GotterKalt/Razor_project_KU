@@ -1,0 +1,49 @@
+﻿@page "/demo_custom_name"
+@model Razor_project.Pages.samples.IndexModel
+@{
+    var numbers = ViewData["Numbers"] as int[];
+}
+
+@if (numbers != null)
+{
+    <div>
+        <label>Numbers: @(string.Join(",", numbers))</label>
+        <p>SUM: @numbers.Sum()</p>
+        <p>AVG: @numbers.Average()</p>
+        <p>MIN: @numbers.Min()</p>
+        <p>MAX: @numbers.Max()</p>
+    </div>
+}
+@if (Model.Products.Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products.Where(p => p.Name.ToLower().Contains("m")))
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Product.Name" class="control-label"></label>
+        <input asp-for="Product.Name" class="form-control"/>
+        <span asp-validation-for="Product.Name" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary"/>
+    </div>
+
+</form>
