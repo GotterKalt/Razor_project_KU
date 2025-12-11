@@ -19,6 +19,9 @@ namespace Razor_project.Pages.Reports
         {
             _context = context;
         }
+        public double TotalEstimatedHours { get; set; }     // SUM
+        public int MinTasksPerProject { get; set; }         // MIN
+        public int MaxTasksPerProject { get; set; }         // MAX
 
         // Bendros sumos
         public int TotalProjects { get; set; }
@@ -53,7 +56,7 @@ namespace Razor_project.Pages.Reports
 
         public async Task OnGetAsync()
         {
-            // ---------- LAMBDA LINQ + agregacijos ----------
+            // ---------- LAMBDA LINQ + COUNT ----------
             TotalProjects = await _context.Projects.CountAsync();
             TotalTasks = await _context.TaskItems.CountAsync();
 
@@ -67,13 +70,12 @@ namespace Razor_project.Pages.Reports
                                  t.Deadline < DateTime.UtcNow &&
                                  t.Status != TaskStatus.Completed);
 
-            AverageTasksPerProject = TotalProjects == 0
-                ? 0
-                : Math.Round((double)TotalTasks / TotalProjects, 2);
+            // ---------- SUM agregacija (iš Comment.EffortEstimateHours) ----------
+            //TotalEstimatedHours = await _context.Comments
+             //   .SumAsync(c => c.EffortEstimateHours);
 
             // ---------- QUERY SINTAKSĖ + JOIN + GROUP BY ----------
 
-            // Užduotys pagal projektą (JOIN Projects ir TaskItems)
             var tasksByProjectQuery =
                 from p in _context.Projects
                 join t in _context.TaskItems
@@ -90,6 +92,20 @@ namespace Razor_project.Pages.Reports
                 .OrderByDescending(x => x.TaskCount)
                 .ToListAsync();
 
+            // ČIA NAUDOJAM MIN, MAX ir AVERAGE agregacijas
+            if (TasksByProject.Any())
+            {
+                MinTasksPerProject = TasksByProject.Min(x => x.TaskCount);
+                MaxTasksPerProject = TasksByProject.Max(x => x.TaskCount);
+                AverageTasksPerProject = Math.Round(TasksByProject.Average(x => x.TaskCount), 2);
+            }
+            else
+            {
+                MinTasksPerProject = 0;
+                MaxTasksPerProject = 0;
+                AverageTasksPerProject = 0;
+            }
+
             // Užduotys pagal prioritetą (GROUP BY)
             var tasksByPriorityQuery =
                 from t in _context.TaskItems
@@ -104,5 +120,6 @@ namespace Razor_project.Pages.Reports
                 .OrderByDescending(x => x.Count)
                 .ToListAsync();
         }
+
     }
 }
