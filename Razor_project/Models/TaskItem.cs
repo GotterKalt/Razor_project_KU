@@ -23,12 +23,12 @@ namespace Razor_project.Models
 
         // Assignment
         public int? AssignedToId { get; set; }
-        public ProjectManager AssignedTo { get; set; }
+        public ProjectManager? AssignedTo { get; set; }
 
 
         // Link to project
         public int ProjectId { get; set; }
-        public Project Project { get; set; }
+        public Project? Project { get; set; }
 
         // konstruktoriai
         public TaskItem()

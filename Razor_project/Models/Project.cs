@@ -16,7 +16,7 @@ namespace Razor_project.Models
 
         public string Description { get; set; }
 
-        public DateTime StartDate { get; private set; } // public get, private set - kita inkapsuliacija
+        public DateTime StartDate { get; set; } 
         public DateTime? EndDate { get; set; }
 
         // Composer: Project turi Tasks (kompozicija)
@@ -24,7 +24,7 @@ namespace Razor_project.Models
 
         // Navigacija: projekto vadovas (optional)
         public int? ProjectManagerId { get; set; }
-        public ProjectManager ProjectManager { get; set; }
+        public ProjectManager? ProjectManager { get; set; }
 
 
         // konstruktoriai

@@ -1,0 +1,55 @@
+﻿@page "{id:int}"
+@model Razor_project.Pages.Projects.DetailsModel
+
+@{
+    ViewData["Title"] = "Projekto detalės";
+}
+
+<h1>@Model.Project.Name</h1>
+
+<p>@Model.Project.Description</p>
+<p>Pradžia: @Model.Project.StartDate.ToShortDateString()</p>
+<p>Pabaiga: @(Model.Project.EndDate?.ToShortDateString() ?? "-")</p>
+
+<h3>Užduotys</h3>
+
+@if (Model.Project.Tasks == null || !Model.Project.Tasks.Any())
+{
+    <p>Šiame projekte dar nėra užduočių.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Pavadinimas</th>
+                <th>Prioritetas</th>
+                <th>Statusas</th>
+                <th>Terminas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model.Project.Tasks)
+            {
+                <tr>
+                    <td>@t.Title</td>
+                    <td>@t.Priority</td>
+                    <td>@t.Status</td>
+                    <td>@(t.Deadline?.ToShortDateString() ?? "-")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<p>
+    <a asp-page="/Tasks/Index" asp-route-projectId="@Model.Project.Id" class="btn btn-info">
+    Peržiūrėti visas šio projekto užduotis
+    </a>
+
+    <a asp-page="/Tasks/Create" asp-route-projectId="@Model.Project.Id" class="btn btn-success">
+        + Nauja užduotis šiame projekte
+    </a>
+    <a asp-page="Edit" asp-route-id="@Model.Project.Id" class="btn btn-primary">Redaguoti projektą</a>
+    <a asp-page="Index" class="btn btn-secondary">Atgal</a>
+</p>
+

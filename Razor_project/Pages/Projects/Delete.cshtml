@@ -1,0 +1,20 @@
+﻿@page "{id:int}"
+@model Razor_project.Pages.Projects.DeleteModel
+
+@{
+    ViewData["Title"] = "Trinti projektą";
+}
+
+<h1>Ar tikrai norite ištrinti šį projektą?</h1>
+
+<div>
+    <h4>@Model.Project.Name</h4>
+    <p>@Model.Project.Description</p>
+    <p>Pradžia: @Model.Project.StartDate.ToShortDateString()</p>
+    <p>Pabaiga: @(Model.Project.EndDate?.ToShortDateString() ?? "-")</p>
+</div>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Taip, trinti</button>
+    <a asp-page="Index" class="btn btn-secondary">Atgal</a>
+</form>

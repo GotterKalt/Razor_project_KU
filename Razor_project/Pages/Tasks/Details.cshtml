@@ -1,0 +1,19 @@
+﻿@page "{id:int}"
+@model Razor_project.Pages.Tasks.DetailsModel
+
+@{
+    ViewData["Title"] = "Užduoties detalės";
+}
+
+<h1>@Model.TaskItem.Title</h1>
+
+<p><strong>Aprašymas:</strong> @Model.TaskItem.Description</p>
+<p><strong>Projektas:</strong> @Model.TaskItem.Project?.Name</p>
+<p><strong>Prioritetas:</strong> @Model.TaskItem.Priority</p>
+<p><strong>Statusas:</strong> @Model.TaskItem.Status</p>
+<p><strong>Terminas:</strong> @(Model.TaskItem.Deadline?.ToShortDateString() ?? "-")</p>
+
+<p>
+    <a asp-page="Edit" asp-route-id="@Model.TaskItem.Id" class="btn btn-primary">Redaguoti</a>
+    <a asp-page="Index" class="btn btn-secondary">Atgal</a>
+</p>

@@ -1,0 +1,69 @@
+﻿@page
+@model Razor_project.Pages.Tasks.IndexModel
+
+@{
+    ViewData["Title"] = "Užduočių sąrašas";
+}
+
+@if (Model.ProjectId.HasValue)
+{
+    <a asp-page="/Tasks/Index" class="btn btn-secondary mb-3">Rodyti visas užduotis</a>
+}
+
+<h1>
+    @if (Model.ProjectId.HasValue)
+    {
+        <text>Užduotys projektui: @Model.TaskList.FirstOrDefault()?.Project?.Name</text>
+    }
+    else
+    {
+        <text>Visos užduotys</text>
+    }
+</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">+ Nauja užduotis</a>
+</p>
+
+<form method="get" class="row g-3 mb-3">
+    <div class="col-auto">
+        <label asp-for="StatusFilter" class="form-label">Filtruoti pagal statusą</label>
+        <select asp-for="StatusFilter" class="form-select"
+                asp-items="Html.GetEnumSelectList<Razor_project.Models.TaskStatus>()">
+            <option value="">– Visi –</option>
+        </select>
+    </div>
+    <div class="col-auto align-self-end">
+        <button type="submit" class="btn btn-secondary">Filtruoti</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Pavadinimas</th>
+            <th>Projektas</th>
+            <th>Prioritetas</th>
+            <th>Statusas</th>
+            <th>Terminas</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model.TaskList)
+        {
+            <tr>
+                <td>@t.Title</td>
+                <td>@t.Project?.Name</td>
+                <td>@t.Priority</td>
+                <td>@t.Status</td>
+                <td>@(t.Deadline?.ToShortDateString() ?? "-")</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@t.Id">Peržiūrėti</a> |
+                    <a asp-page="Edit" asp-route-id="@t.Id">Redaguoti</a> |
+                    <a asp-page="Delete" asp-route-id="@t.Id">Trinti</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

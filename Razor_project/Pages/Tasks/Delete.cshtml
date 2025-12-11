@@ -1,0 +1,19 @@
+﻿@page "{id:int}"
+@model Razor_project.Pages.Tasks.DeleteModel
+
+@{
+    ViewData["Title"] = "Trinti užduotį";
+}
+
+<h1>Ar tikrai norite ištrinti šią užduotį?</h1>
+
+<div>
+    <h4>@Model.TaskItem.Title</h4>
+    <p>@Model.TaskItem.Description</p>
+    <p>Projektas: @Model.TaskItem.Project?.Name</p>
+</div>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Taip, trinti</button>
+    <a asp-page="Index" class="btn btn-secondary">Atgal</a>
+</form>

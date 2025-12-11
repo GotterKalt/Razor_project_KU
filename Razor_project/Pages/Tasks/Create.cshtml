@@ -1,0 +1,69 @@
+﻿@page
+@model Razor_project.Pages.Tasks.CreateModel
+@using Razor_project.Models
+
+
+@{
+    ViewData["Title"] = "Nauja užduotis";
+}
+
+<h1>Nauja užduotis</h1>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Title" class="form-label"></label>
+        <input asp-for="TaskItem.Title" class="form-control" />
+        <span asp-validation-for="TaskItem.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Description" class="form-label"></label>
+        <textarea asp-for="TaskItem.Description" class="form-control"></textarea>
+        <span asp-validation-for="TaskItem.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.ProjectId" class="form-label">Projektas</label>
+        <select asp-for="TaskItem.ProjectId" class="form-select"
+                asp-items="Model.ProjectOptions"></select>
+        <span asp-validation-for="TaskItem.ProjectId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Priority" class="form-label">Prioritetas</label>
+        <select asp-for="TaskItem.Priority" class="form-select"
+                asp-items="Html.GetEnumSelectList<PriorityLevel>()"></select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Status" class="form-label">Statusas</label>
+        <select asp-for="TaskItem.Status" class="form-select"
+                asp-items="Html.GetEnumSelectList<Razor_project.Models.TaskStatus>()"></select>
+
+
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Deadline" class="form-label">Terminas</label>
+        <input asp-for="TaskItem.Deadline" class="form-control" type="date" />
+        <span asp-validation-for="TaskItem.Deadline" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox"
+               id="chkCompleted" value="Done"
+               onchange="if(this.checked){ document.getElementById('statusSelect').value='Done'; }">
+        <label class="form-check-label" for="chkCompleted">
+            Pažymėti kaip atliktą
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Išsaugoti</button>
+    <a asp-page="Index" class="btn btn-secondary">Atgal</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

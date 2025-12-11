@@ -1,0 +1,40 @@
+﻿@page
+@model Razor_project.Pages.Projects.IndexModel
+
+@{
+    ViewData["Title"] = "Projektų sąrašas";
+}
+
+<h1>Projektų sąrašas</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">+ Naujas projektas</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Pavadinimas</th>
+            <th>Pradžia</th>
+            <th>Pabaiga</th>
+            <th>Užduočių sk.</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProjectList)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.StartDate.ToShortDateString()</td>
+                <td>@(item.EndDate.HasValue? item.EndDate.Value.ToShortDateString() : "-")</td>
+                <td>@(item.Tasks?.Count ?? 0)</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@item.Id">Peržiūrėti</a> |
+                    <a asp-page="Edit" asp-route-id="@item.Id">Redaguoti</a> |
+                    <a asp-page="Delete" asp-route-id="@item.Id">Trinti</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
