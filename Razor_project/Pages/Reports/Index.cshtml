@@ -1,0 +1,122 @@
+﻿@page
+@model Razor_project.Pages.Reports.IndexModel
+@using Razor_project.Models
+
+@{
+    ViewData["Title"] = "Ataskaitos";
+}
+
+<h1>Projektų ir užduočių ataskaitos</h1>
+
+<hr />
+
+<h2>Bendra statistika</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card border-primary">
+            <div class="card-body">
+                <h5 class="card-title">Projektų skaičius</h5>
+                <p class="card-text display-6">@Model.TotalProjects</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-secondary">
+            <div class="card-body">
+                <h5 class="card-title">Užduočių skaičius</h5>
+                <p class="card-text display-6">@Model.TotalTasks</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-success">
+            <div class="card-body">
+                <h5 class="card-title">Vid. užduočių / projektą</h5>
+                <p class="card-text display-6">@Model.AverageTasksPerProject</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-danger">
+            <div class="card-body">
+                <h5 class="card-title">Vėluojančios užduotys</h5>
+                <p class="card-text display-6">@Model.OverdueTasks</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Užduočių pasiskirstymas pagal statusą</h2>
+
+<table class="table table-bordered w-50">
+    <thead>
+        <tr>
+            <th>Statusas</th>
+            <th>Kiekis</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>New</td>
+            <td>@Model.NewTasks</td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            <td>@Model.ActiveTasks</td>
+        </tr>
+        <tr>
+            <td>Completed</td>
+            <td>@Model.CompletedTasks</td>
+        </tr>
+        <tr>
+            <td>Blocked</td>
+            <td>@Model.BlockedTasks</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Užduotys pagal projektą</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Projektas</th>
+            <th>Užduočių sk.</th>
+            <th>Baigtų užduočių sk.</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model.TasksByProject)
+        {
+            <tr>
+                <td>@p.ProjectName</td>
+                <td>@p.TaskCount</td>
+                <td>@p.CompletedCount</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Užduotys pagal prioritetą</h2>
+
+<table class="table table-striped w-50">
+    <thead>
+        <tr>
+            <th>Prioritetas</th>
+            <th>Užduočių sk.</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pr in Model.TasksByPriority)
+        {
+            <tr>
+                <td>@pr.Priority</td>
+                <td>@pr.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
